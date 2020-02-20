@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>  </title>
+  </head>
+  <body>
+    <canvas id="canvas" height="500" width="450"></canvas>
+    <div style="display: none;">
+      <img id="source"
+           src="images/body.png"
+           width="450"
+           height="500"
+           >
+    </div>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    (function() {
+      const canvas = document.getElementById('canvas');
+      const context = canvas.getContext("2d");
+      const image = document.getElementById('source');
+
+      //Draws background
+      context.drawImage(image, 0, 0);
+
+      //Right hand front
+      // const rightHandFront = new Path2D();
+      // {
+      //   x: 10,
+      //   y: 220,
+      //   width: 35,
+      //   height: 40
+      // }
+      // context.fillRect(rightHandFront.x, rightHandFront.y, rightHandFront.width, rightHandFront.height);
+      //Left hand front
+      // rightHandFront.rect(165,220,35,40);
+      // context.fill(rightHandFront);
+      //Right hand back
+      // context.strokeRect(380,225,35,40);
+      //Left hand back
+      // context.strokeRect(230,225,35,40);
+
+      canvas.addEventListener('mousedown', function(event) {
+        var mouseX = event.pageX - this.offsetLeft;
+        var mouseY = event.pageY - this.offsetTop;
+
+        paint = true;
+        addClick(event.pageX - this.offsetLeft, event.pageY - this.offsetTop);
+        redraw();
+      });
+
+      canvas.addEventListener('mousemove', function(event) {
+        if(paint){
+          addClick(event.pageX - this.offsetLeft, event.pageY - this.offsetTop, true);
+          redraw();
+        }
+      });
+
+      canvas.addEventListener('mouseup', function() {
+        paint = false;
+        // getAreaCovered();
+        // if (rightHandFront.isPointInPath(rightHandFront, 165, 220)) {
+        //   console.log('gh');
+        // }
+      });
+
+      canvas.addEventListener('mouseleave', function(e) {
+        paint = false;
+      });
+
+      var clickX = new Array();
+      var clickY = new Array();
+      var clickDrag = new Array();
+      var paint;
+
+      function addClick(x, y, dragging)
+      {
+        if (clickX.includes(x)) {
+          return false;
+        } else {
+          clickX.push(x);
+
+        }
+        clickY.push(y);
+        clickDrag.push(dragging);
+      }
+
+      function redraw() {
+
+        context.strokeStyle = "#df4b26";
+        context.lineJoin = "round";
+        context.lineWidth = 3;
+
+        for(var i = 0; i < clickX.length; i++) {
+          context.beginPath();
+          if(clickDrag[i] && i) {
+            context.moveTo(clickX[i-1], clickY[i-1]);
+           } else {
+             context.moveTo(clickX[i]-1, clickY[i]);
+           }
+           context.lineTo(clickX[i], clickY[i]);
+           context.closePath();
+           context.stroke();
+
+            // console.log(clickX);
+        }
+      }
+
+      // function getAreaCovered() {
+      //   const cover = context.getImageData(0, 0, 450, 500);
+      //
+      //   let filterAlphaChannel = cover.data.filter(function(event, iterator) {
+      //     return (iterator + 1) % 4 !== 0;
+      //   });
+      //
+      //   let filterWhite = remove(cover.data, 255);
+
+        // console.log(noWhite);
+
+        // let drawedPixelsWithWhite = (getOccurrence(filterAlphaChannel, 223, 75, 38) - 1271);
+        // let drawedPixelsWithoutWhite = (getOccurrence(filterWhite, 223, 75, 38) - 1271);
+        //
+        // function getOccurrence(array, red, green, blue) {
+        //   return array.filter((v) => (v === red || v === green || v === blue)).length;
+        // }
+        //
+        // function remove(array, element) {
+        //   return array.filter(el => el !== element);
+        // }
+
+        // console.log(drawedPixelsWithWhite);
+        // console.log(drawedPixelsWithoutWhite);
+        //
+        // coveredAreaWithWhite = drawedPixelsWithWhite / (450 * 500);
+        // coveredAreaWithoutWhite = drawedPixelsWithoutWhite / (filterWhite.length);
+
+        // console.log(coveredAreaWithWhite * 100);
+        // console.log(coveredAreaWithoutWhite * 100);
+      // }
+    })();
+
+    // $(document).ready(function() {
+      // const canvas = document.getElementById('canvas');
+      // const context = canvas.getContext("2d");
+      // const image = document.getElementById('source');
+      //
+      // //Draws background
+      // context.drawImage(image, 0, 0);
+      //
+      // const cover = context.getImageData(0, 0, 450, 500);
+      // console.log(cover);
+      //
+      // function getOccurrence(array, red, green, blue) {
+      //   return array.filter((v) => (v === red || v === green || v === blue)).length;
+      // }
+      //
+      // console.log(getOccurrence(cover.data, 223, 75, 38));
+      //
+      // $('#canvas').mousedown(function(e){
+      //   var mouseX = e.pageX - this.offsetLeft;
+      //   var mouseY = e.pageY - this.offsetTop;
+      //
+      //   paint = true;
+      //   addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+      //   redraw();
+      // });
+      //
+      // $('#canvas').mousemove(function(e){
+      //   if(paint){
+      //     addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+      //     redraw();
+      //   }
+      // });
+      //
+      // $('#canvas').mouseup(function(e){
+      //   paint = false;
+      //   getAreaCovered();
+      // });
+      //
+      // $('#canvas').mouseleave(function(e){
+      //   paint = false;
+      // });
+      //
+      // var clickX = new Array();
+      // var clickY = new Array();
+      // var clickDrag = new Array();
+      // var paint;
+      //
+      // function addClick(x, y, dragging)
+      // {
+      //   clickX.push(x);
+      //   clickY.push(y);
+      //   clickDrag.push(dragging);
+      // }
+      //
+      // function redraw() {
+      //
+      //   context.strokeStyle = "#df4b26";
+      //   context.lineJoin = "round";
+      //   context.lineWidth = 3;
+      //
+      //   for(var i = 0; i < clickX.length; i++) {
+      //     context.beginPath();
+      //     if(clickDrag[i] && i) {
+      //       context.moveTo(clickX[i-1], clickY[i-1]);
+      //      } else {
+      //        context.moveTo(clickX[i]-1, clickY[i]);
+      //      }
+      //      context.lineTo(clickX[i], clickY[i]);
+      //      context.closePath();
+      //      context.stroke();
+      //   }
+      // }
+      //
+      // function getAreaCovered() {
+      //   const cover = context.getImageData(0, 0, 450, 500);
+      //   let pixels = getOccurrence(cover.data, 223, 75, 38) - 1271;
+      //
+      //   console.log(pixels);
+      //
+      //   function getOccurrence(array, red, green, blue) {
+      //     return array.filter((v) => (v === red || v === green || v === blue)).length;
+      //   }
+      //
+      //   // console.log(getOccurrence(cover.data, 223, 75, 38));
+      //   // for (var i = 0; i < cover.data.length; i++) {
+      //   //   if (i != 255) {
+      //   //     pixels++;
+      //   //     // console.log('obj');
+      //   //   }
+      //   // }
+      //   //
+      //   coveredArea = pixels / (450 * 500);
+      //   // console.log(pixels);
+      //
+      //   console.log(coveredArea);
+    //   }
+    // });
+  </script>
+</html>
