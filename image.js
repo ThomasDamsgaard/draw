@@ -2,12 +2,11 @@
 // const string = '72,86,71,86,69,86,69,85,68,85,67,85,66,85,65,85,65,86,65,87,65,88,66,90,66,91,67,94,67,96,67,97,69,98,71,100,72,101,74,102,76,103,78,104,80,104,82,104,83,106,84,106,85,106,86,106,87,106,89,106,89,105,89,104,89,103,89,102,88,99,87,98,87,96,87,95,86,95,86,94,85,93,84,92,83,91,82,91,82,90,81,90,80,90,78,90,77,89,77,88,76,87';
 // let string = '95,97,100,101,102,104,105,108,109,115,114,121,117,126,121x132,125x137,128x141,131x146,135x150,136x151,142x158,146x161,149x164,152x167,154x169,157x172,160x175,162x177,166x181,168x183,171x187,173x188,175x191,177x193,180x196,182x198,185x202,187x205,188x206,191x210,192x211,194x214,196x217,199x220,201x221,203x224,205x226,206x227,208x229,209x230,211x231,213x232,214x234,215x235,217x236,219x237,220x237,221x238,223x240,224x240,226x241,227x241,229x242,231x242,232x243,235x243,237x243,239x243,241x243,243x243,246x243,247x243,249x243,252x243,253x242,255x242,257x241,258x241,259x240,261x239,264x237,266x236,268x235,270x234,273x233,275x231,278x230,281x228,283x227,286x226,287x225,289x224,291x224,292x224,293x223,293x223,294x223,294x223,294x223,295x223,295x223,296x223,296x223,297x224,297x224,297x225,297x225,298x225,298x226,300x227,301x229,303x231,306x233,308x235,311x238,315x241,318x244,319x245,322x247,324x249,327x252,329x253,331x255,333x256,334x258,336x259,338x260,340x261,352x270';
 const string = '72,86,71,86,69,86,69,85,68,85,67,85,66,85,65,85,65,86,65,87,65,88,66,90,66,91,67,94,67,96,67,97,69,98,71,100,72,101,74,102,76,103,78,104,80,104,82,104,83,106,84,106,85,106,86,106,87,106,89,106,89,105,89,104,89,103,89,102,88,99,87,98,87,96,87,95,86,95,86,94,85,93,84,92,83,91,82,91,82,90,81,90,80,90,78,90,77,89,77,88,76,87';
-const input = document.querySelector('#input');
-let str = input.value;
 
 
-let split = string.split(',');
-console.log(split);
+
+// let split = string.split(',');
+// console.log(split);
 
 const parser = (str) => {
   return  str.split(',')
@@ -24,24 +23,24 @@ function setup() {
   canvas.parent('canvas')
   background(204);
 
-
   let bg = loadImage('images/body.png', img => {
     image(img, 0, 0);
   });
 
-  const button = document.querySelector('button');
-  button.addEventListener('click', function() {
+  const drawButton = document.querySelector('#drawButton');
+  drawButton.addEventListener('click', function() {
+    const input = document.querySelector('#input').value;
+    console.log(input);
+  });
+
+  const saveButton = document.querySelector('#saveButton');
+  saveButton.addEventListener('click', function() {
     saveCanvas(canvas, "mySVG.png"); // give file name
     print("saved svg");
     noLoop(); // Just export once
+
+    const input = document.querySelector('#input').value;
+    console.log(input);
   });
 }
 //
-function draw() {
-  stroke(255, 40, 0);
-  strokeWeight(3);
-
-  for (var i = 0; i < parsedCoordinates.length; i++) {
-    point(parsedCoordinates[i][0], parsedCoordinates[i][1]);
-  }
-}
